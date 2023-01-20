@@ -2,10 +2,6 @@ import time
 import requests
 
 
-class TimeOutException(Exception):
-    pass
-
-
 json_data = []
 
 
