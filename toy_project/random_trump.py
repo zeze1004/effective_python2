@@ -34,7 +34,7 @@ if __name__ == '__main__':
     # print(card)
 
     # 클래스 호출
-    c1 = Counter(0, 53)
+    c1 = Counter(1, 54)
     obj = iter(c1)
     try:
         while True: # Print till error raised
