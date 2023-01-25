@@ -20,7 +20,7 @@ class Card:
         random.shuffle(self.card)
 
 
-class Counter:
+class PrintRandomCard:
     def __init__(self, start, end):
         self.num = start
         self.end = end
@@ -40,7 +40,7 @@ class Counter:
 # Driver code
 if __name__ == '__main__':
     # 클래스 호출
-    c1 = Counter(0, 54)
+    c1 = PrintRandomCard(0, 54)
     obj = iter(c1)
     try:
         while True:  # Print till error raised
