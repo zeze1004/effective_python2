@@ -2,6 +2,24 @@
 import random
 
 
+class Card:
+    def __init__(self):
+        self.shape = ['♠', '♥', '♦', '♣']
+        self.num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'A', 'J', 'Q']
+
+    def __iter__(self):
+        self.card = ['color_joker', 'black_joker']
+
+    def make_deck(self):
+        # 카드덱 만들기
+        for i in self.shape:
+            for j in self.num:
+                self.card.append(i + j)
+
+    def shuffle(self):
+        random.shuffle(self.card)
+
+
 class Counter:
     def __init__(self, start, end):
         self.num = start
@@ -14,33 +32,20 @@ class Counter:
         if self.num > self.end:
             raise StopIteration
         else:
-            print(self.num, card[self.num])
+            print(self.num, Card.card[self.num])
             self.num += 1
             return self.num - 1
 
 
 # Driver code
 if __name__ == '__main__':
-    shape = ['♠', '♥', '♦', '♣']
-    num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'A', 'J', 'Q']
-    card = ['color_joker', 'black_joker']
-
-    # 카드덱 만들기
-    for i in shape:
-        for j in num:
-            card.append(i + j)
-
-    random.shuffle(card)
-    # print(card)
-
     # 클래스 호출
-    c1 = Counter(1, 54)
+    c1 = Counter(0, 54)
     obj = iter(c1)
     try:
-        while True: # Print till error raised
+        while True:  # Print till error raised
             next(obj)
             pass
     except:
         # when StopIteration raised, Print custom message
         print("\nGAME OVER")
-
