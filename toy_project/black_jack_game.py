@@ -10,17 +10,11 @@ class CardDeck(object):
         self.suit = suit
         # print(face, suit)
 
-    def __str__(self):
-        article = "a "
-        if self.face in [8, "Ace"]:
-            article = "an "
-        return (article + str(self.face) + " of" + self.suit)
-
 
 class Dealer(object):
     """딜러로서 게임 진행하기"""
     def __init__(self):
-        "카드 섞기"
+        """카드 섞기"""
         self.cards = []
         for suit in SUITS:
             for face in FACES:
