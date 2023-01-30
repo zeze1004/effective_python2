@@ -4,9 +4,8 @@ import random
 
 
 class CardDeck(object):
-    """A Blackjack card."""
+    """카드덱 만들기"""
     def __init__(self, face, suit):
-        # assert face in FACES and suit in SUITS
         self.face = face
         self.suit = suit
         # print(face, suit)
@@ -19,9 +18,9 @@ class CardDeck(object):
 
 
 class Dealer(object):
-    """A deck of cards."""
+    """딜러로서 게임 진행하기"""
     def __init__(self):
-        "Create a deck of 52 cards and shuffle them."
+        "카드 섞기"
         self.cards = []
         for suit in SUITS:
             for face in FACES:
@@ -29,7 +28,7 @@ class Dealer(object):
         random.shuffle(self.cards)
 
     def draw(self):
-        """Draw the top card from the deck."""
+        """맨 위의 카드 뽑기"""
         return self.cards.pop()
 
     def talk(self):
@@ -38,7 +37,7 @@ class Dealer(object):
 
 
 class Player(object):
-    """게임을 지속할건지 끝낼건지 결정"""
+    """플레이어로서 게임 진행 및 종료 결정"""
     pass
 
 
