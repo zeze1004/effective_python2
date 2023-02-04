@@ -3,7 +3,7 @@
 import random
 
 
-class CardDeck(object):
+class Card(object):
     """카드덱 만들기"""
     def __init__(self, face, suit):
         self.face = face
