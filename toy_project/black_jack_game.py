@@ -5,25 +5,34 @@ import random
 
 class Card(object):
     """카드덱 만들기"""
-    def __init__(self, face, suit):
-        self.face = face
-        self.suit = suit
-        # print(face, suit)
+
+    def __init__(self):
+        self.face = list(range(2, 11)) + ['Jack', 'Queen', 'King', 'Ace']
+        self.suit = ['♠', '♥', '♦', '♣']
+
+    def shuffle(self):
+        cards = []
+        for suit_ in self.suit:
+            for face_ in self.face:
+                cards.append([suit_, face_])
+        random.shuffle(cards)
+        print(cards)
+
+    def draw_card(self):
+        pass
+    def reset(self):
+        pass
 
 
 class Dealer(object):
     """딜러로서 게임 진행하기"""
     def __init__(self):
         """카드 섞기"""
-        self.cards = []
-        for suit in SUITS:
-            for face in FACES:
-                self.cards.append(Card(face, suit))
-        random.shuffle(self.cards)
+        pass
 
-    def draw(self):
-        """맨 위의 카드 뽑기"""
-        return self.cards.pop()
+    # def draw(self):
+    #     """맨 위의 카드 뽑기"""
+    #     return self.cards.pop()
 
     def talk(self):
         """user와 대화하기"""
@@ -35,12 +44,19 @@ class Player(object):
     pass
 
 
-if __name__ == '__main__':
-    FACES = list(range(2, 11)) + ['Jack', 'Queen', 'King', 'Ace']
-    SUITS = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
+class Game(object):
+    """player와 dealer에게 덱 할당시키고 loop문으로 게임 플레이"""
+    def hit(self):
+        pass
+    def stand(self):
+        pass
+    def play_game(self):
+        pass
 
-    num_players = 1
-    num_cards = 52
-    deck = Card(FACES, SUITS)
-    deal_game = Dealer()
+
+if __name__ == '__main__':
+    deck = Card()
+    print(deck.shuffle())
+
+
 
