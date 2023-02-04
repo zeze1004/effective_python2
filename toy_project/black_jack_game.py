@@ -18,7 +18,7 @@ class Dealer(object):
         self.cards = []
         for suit in SUITS:
             for face in FACES:
-                self.cards.append(CardDeck(face, suit))
+                self.cards.append(Card(face, suit))
         random.shuffle(self.cards)
 
     def draw(self):
@@ -41,6 +41,6 @@ if __name__ == '__main__':
 
     num_players = 1
     num_cards = 52
-    deck = CardDeck(FACES, SUITS)
+    deck = Card(FACES, SUITS)
     deal_game = Dealer()
 
