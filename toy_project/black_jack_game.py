@@ -1,19 +1,25 @@
-# 객체 (object)로 블랙잭 카드 게임 만들기
-
 import random
 
+SUIT = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
+FACE = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
+VALUES = {'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7, 'Eight': 8, 'Nine': 9, 'Ten': 10,
+          'Jack': 10, 'Queen': 10, 'King': 10, 'Ace': 11}
 
-class Card(object):
+
+class CardDeck:
     """카드덱 만들기"""
+
     def __init__(self):
-        self.face = list(range(2, 11)) + ['Jack', 'Queen', 'King', 'Ace']
-        self.suit = ['♠', '♥', '♦', '♣']
-        self.deck = []
+        self.deck = self.__setup_cards()
+
+    def __setup_cards(self):
+        cards = []
+        for suit in SUIT:
+            for face in FACE:
+                cards.append([suit, face])
+        return cards
 
     def shuffle(self):
-        for suit_ in self.suit:
-            for face_ in self.face:
-                self.deck.append([suit_, face_])
         random.shuffle(self.deck)
         # print(self.deck)
 
@@ -22,55 +28,55 @@ class Card(object):
         print(single_card)
         return single_card
 
-    # def reset(self):
-    #     pass
-
 
 class Dealer(object):
-    """딜러로서 게임 진행하기"""
-    def __init__(self):
-        """카드 섞기"""
-        pass
+    """딜러"""
+    def __init__(self):  # 더블언더바 = dunder
+        self.dealer_cards = []
+        self.value = 0
 
-    # def draw(self):
-    #     """맨 위의 카드 뽑기"""
-    #     return self.cards.pop()
+    def add_card(self, card):
+        self.dealer_cards.append(card)
+        self.value += VALUES[self.dealer_cards[-1][1]]
+        print("dealer:", self.value)
 
-    def talk(self):
-        """user와 대화하기"""
-        pass
+    def own_card(self):
+        return self.dealer_cards
 
 
 class Player(object):
-    """플레이어로서 게임 진행 및 종료 결정"""
-    def __init__(self):
+    """플레이어"""
+    def __init__(self):  # 더블언더바 = dunder
         self.players_cards = []
         self.value = 0
-        # self.aces = 0
 
-    def add_card(self, card: list):
+    def add_card(self, card):
         self.players_cards.append(card)
-        # print(self.players_cards)
-        # self.value += values[card.rank]
+        self.value += VALUES[self.players_cards[-1][1]]
+        print("player:", self.value)
 
     def own_card(self):
         return self.players_cards
 
 
-class Game(object):
+# player is game이 아니므로 상속 X
+# Game has player 은 ok
+class Game:
     """player와 dealer에게 덱 할당시키고 loop문으로 게임 플레이"""
-    def __init__(self):
+
+    def __init__(self, card, player, dealer):  # main 함수의 인스턴스 넘겨받음, 밖에서 선언해야 종속성을 줄일 수 있음 ex. 고스톱 카드로 변경 가능
         self.value = 0
-        # self.aces = 0
+        self.card = card
+        self.player = player
+        self.dealer = dealer
 
     def hit(self):
-        player_hit = Player
-        card_hit = Card
-        player_hit.add_card(card_hit.draw_card(self))
-        print("hit")
+        self.player.add_card(self.card.draw_card())
 
+    def stand(self):
+        self.dealer.add_card(self.card.draw_card())
 
-    def hit_or_stand(self, hand):
+    def hit_or_stand(self):
         while True:
             x = input("Would you like to Hit or Stand? Enter 'h' or 's' ")
 
@@ -79,61 +85,33 @@ class Game(object):
 
             elif x[0].lower() == 's':
                 print("Player stands. Dealer is playing.")
-                playing = False
+                Game.stand(self)
 
             else:
                 print("Sorry, please try again.")
                 continue
             break
 
-    # def show_some(player, dealer):
-    #     print("\nDealer's Hand:")
-    #     print(" <card hidden>")
-    #     print('', dealer.cards[1])
-    #     print("\nPlayer's Hand:", *player.cards, sep='\n ')
-    #
-    # def show_all(player, dealer):
-    #     print("\nDealer's Hand:", *dealer.cards, sep='\n ')
-    #     print("Dealer's Hand =", dealer.value)
-    #     print("\nPlayer's Hand:", *player.cards, sep='\n ')
-    #     print("Player's Hand =", player.value)
-    #
-    # # functions to handle end of game scenarios
-    #
-    # def player_busts(player, dealer, chips):
-    #     print("Player busts!")
-    #     chips.lose_bet()
-    #
-    # def player_wins(player, dealer, chips):
-    #     print("Player wins!")
-    #     chips.win_bet()
-    #
-    # def dealer_busts(player, dealer, chips):
-    #     print("Dealer busts!")
-    #     chips.win_bet()
-    #
-    # def dealer_wins(player, dealer, chips):
-    #     print("Dealer wins!")
-    #     chips.lose_bet()
-    #
-    # def push(player, dealer):
-    #     print("Dealer and Player tie! It's a push.")
-
 
 if __name__ == '__main__':
-    deck = Card()
+    # DI <- Dependency Injection
+    deck = CardDeck()
     deck.shuffle()
-    game = Game()
-    # single_card__ = deck.draw_card()
-    # game.add_card(single_card)
 
     # 카드 두 장 지급
     player = Player()
+    dealer = Dealer()
     player.add_card(deck.draw_card())
-    player.add_card(deck.draw_card())
+    dealer.add_card(deck.draw_card())
 
+    game = Game(player=player, card=deck, dealer=dealer)
+    game.hit()
     while True:
-        game.hit_or_stand(player.own_card())
+        game.hit_or_stand()
 
-
-
+        if player.value > 21:
+            print('player burst!')
+            exit()
+        if dealer.value > 21:
+            print('dealer burst!')
+            exit()
