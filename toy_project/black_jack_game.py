@@ -38,6 +38,7 @@ class Dealer(object):
     def add_card(self, card):
         self.dealer_cards.append(card)
         self.value += VALUES[self.dealer_cards[-1][1]]
+        # TODO: 점수 출력 기능 구현
         print("dealer:", self.value)
 
     def own_card(self):
@@ -76,7 +77,7 @@ class Game:
     def stand(self):
         self.dealer.add_card(self.card.draw_card())
 
-    def hit_or_stand(self):
+    def play(self):
         while True:
             x = input("Would you like to Hit or Stand? Enter 'h' or 's' ")
 
@@ -107,7 +108,7 @@ if __name__ == '__main__':
     game = Game(player=player, card=deck, dealer=dealer)
     game.hit()
     while True:
-        game.hit_or_stand()
+        game.play()
 
         if player.value > 21:
             print('player burst!')
