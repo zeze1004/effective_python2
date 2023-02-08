@@ -54,6 +54,7 @@ class Player(object):
     def add_card(self, card):
         self.players_cards.append(card)
         self.value += VALUES[self.players_cards[-1][1]]
+        # TODO: 점수 출력 기능 구현
         print("player:", self.value)
 
     def own_card(self):
