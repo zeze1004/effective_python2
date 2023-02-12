@@ -1,9 +1,11 @@
 import random
+from dataclasses import dataclass
 
 SUIT = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 FACE = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
 VALUES = {face: value for (face, value) in zip(FACE, range(2, 11))}
 VALUES.update({'Jack': 10, 'Queen': 10, 'King': 10, 'Ace': 11})
+print(VALUES)
 
 
 class CardDeck:
@@ -21,7 +23,6 @@ class CardDeck:
 
     def shuffle(self):
         random.shuffle(self.deck)
-        # print(self.deck)
 
     def draw_card(self):
         single_card = self.deck.pop()
@@ -29,32 +30,42 @@ class CardDeck:
         return single_card
 
 
-class Dealer(object):
+@dataclass
+class CardValue:
+    face: tuple
+    suit: tuple
+    value: dict
+
+    def get_value(self, add_card):
+        return self.value[add_card[1]]
+
+
+class Dealer:
     """딜러"""
-    def __init__(self):  # 더블언더바 = dunder
+    def __init__(self, card_value):  # 더블언더바 = dunder
         self.dealer_cards = []
         self.value = 0
+        self.card_value = card_value
 
     def add_card(self, card):
         self.dealer_cards.append(card)
-        self.value += VALUES[self.dealer_cards[-1][1]]
-        # TODO: 점수 출력 기능 구현
+        self.value += card_value.get_value(card)
         print("dealer:", self.value)
 
     def own_card(self):
         return self.dealer_cards
 
 
-class Player(object):
+class Player:
     """플레이어"""
-    def __init__(self):  # 더블언더바 = dunder
+    def __init__(self, card_value):  # 더블언더바 = dunder
         self.players_cards = []
         self.value = 0
+        self.card_value = card_value
 
     def add_card(self, card):
         self.players_cards.append(card)
-        self.value += VALUES[self.players_cards[-1][1]]
-        # TODO: 점수 출력 기능 구현
+        self.value += card_value.get_value(card)
         print("player:", self.value)
 
     def own_card(self):
@@ -100,9 +111,11 @@ if __name__ == '__main__':
     deck = CardDeck()
     deck.shuffle()
 
+    card_value = CardValue(FACE, SUIT, VALUES)
+
     # 카드 두 장 지급
-    player = Player()
-    dealer = Dealer()
+    player = Player(card_value)
+    dealer = Dealer(card_value)
     player.add_card(deck.draw_card())
     dealer.add_card(deck.draw_card())
 
